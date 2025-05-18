@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.appendChild(name);
 
         const serviceTitle = document.createElement('p');
-        serviceTitle.textContent = 'Services:';
+        serviceTitle.textContent = 'Szolgáltatások:';
         card.appendChild(serviceTitle);
 
         const serviceList = document.createElement('ul');

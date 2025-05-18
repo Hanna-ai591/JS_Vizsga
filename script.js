@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.add('card');
 
         const img = document.createElement('img');
-        img.src = `images/${person.id}.jpg`;
+        img.src = `images/${person.id}.png`;
         img.alt = `${person.name}'s profile picture`;
         img.onerror = () => { img.src = 'images/default.jpg'; };
         card.appendChild(img);
@@ -234,7 +234,9 @@ function updateWeekView() {
 
     const box = document.createElement('div');
     box.className = 'date-box';
-    box.textContent = `${d.getDate()}.${d.getMonth() + 1}`;
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    box.textContent = `${month}.${day}`;
     box.dataset.date = iso;
 
     box.addEventListener('click', () => {

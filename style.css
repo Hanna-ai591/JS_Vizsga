@@ -1,0 +1,293 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  padding: 30px;
+  margin: 0;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #2c3e50;
+}
+
+#hairdresser-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 270px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* középre igazítás vízszintesen */
+  justify-content: space-between;
+  height: 430px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+  border: 3px solid #1abc9c;
+  align-self: center; 
+}
+
+.card h3 {
+  margin: 12px 0 8px;
+  color: #2c3e50;
+}
+
+.card p {
+  margin: 8px 0 4px;
+  font-weight: bold;
+  color: #555;
+}
+
+.card ul {
+  list-style: none;
+  text-align: center;
+  padding-left: 0px;
+  font-size: 0.95em;
+  color: #666;
+}
+
+.button {
+  width: 140px;
+  height: 36px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #1abc9c;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: center;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background-color: #16a085;
+}
+
+#show-appointments {
+  margin: 40px auto;
+  display: block;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#show-appointments:hover {
+  background-color: #2980b9;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  width: 90%;
+  max-width: 850px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hairdresser-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding-right: 0; 
+}
+
+
+.booking-options {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.date-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.date-box {
+  padding: 10px 12px;
+  background-color: #e6e6e6;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  transition: background 0.2s;
+}
+
+.date-box:hover {
+  background-color: #d0d0d0;
+}
+
+.date-box.selected {
+  background-color: #1abc9c;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #16a085;
+}
+
+.time-wrapper {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.time-section-label {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.time-slot-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.time-slot {
+  padding: 8px 14px;
+  background-color: #ddd;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.time-slot:hover {
+  background-color: #ccc;
+}
+
+.time-slot.selected {
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #2980b9;
+}
+
+.time-slot.taken {
+  background-color: #ccc;
+  color: #888;
+  border: 1px solid #aaa;
+  cursor: not-allowed;
+}
+
+.book-button {
+  align-self: flex-end;
+  margin-top: 10px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.book-button:hover {
+  background-color: #27ae60;
+}
+
+.success-message {
+  font-size: 18px;
+  color: #2ecc71;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  padding: 10px 18px;
+  font-size: 14px;
+  background-color: #bdc3c7;
+  color: #2c3e50;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #95a5a6;
+}
+
+#admin-container {
+  max-width: 800px;
+  margin: 30px auto 0;
+  padding: 10px;
+}
+
+.appointment {
+  background: #fff;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}

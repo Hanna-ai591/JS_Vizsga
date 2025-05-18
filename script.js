@@ -214,7 +214,7 @@ function openBookingPopup(person) {
   });
 }
 
-// ✅ Week View With Formatted Hungarian Weekday + Month
+
 function updateWeekView() {
   const label = document.getElementById('week-label');
   const dateBoxes = document.getElementById('date-boxes');
@@ -222,7 +222,7 @@ function updateWeekView() {
   const start = new Date();
   start.setDate(today.getDate() + weekOffset * 7);
 
-  // ✅ Initial label with formatted weekday, month, and day
+
   label.textContent = formatHungarianDateLabel(start);
 
   dateBoxes.innerHTML = '';
@@ -255,7 +255,7 @@ function updateWeekView() {
   document.getElementById('prev-week').disabled = weekOffset === 0;
 }
 
-// ✅ Format: "Hétfő, Március 18"
+
 function formatHungarianDateLabel(date) {
   const weekday = date.toLocaleDateString('hu-HU', { weekday: 'long' });
   const capitalizedWeekday = weekday.charAt(0).toUpperCase() + weekday.slice(1);

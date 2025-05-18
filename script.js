@@ -95,7 +95,7 @@ function openBookingPopup(person) {
   info.className = 'hairdresser-info';
 
   const img = document.createElement('img');
-  img.src = `images/${person.id}.jpg`;
+  img.src = `images/${person.id}.png`;
   img.onerror = () => img.src = 'images/default.jpg';
 
   const name = document.createElement('h2');
@@ -178,7 +178,7 @@ function openBookingPopup(person) {
       alert('Válassz dátumot és időpontot!');
       return;
     }
-  
+
     const appointment = {
       hairdresser_id: selectedHairdresser.id,
       hairdresser_name: selectedHairdresser.name,
@@ -189,20 +189,18 @@ function openBookingPopup(person) {
         ? selectedHairdresser.services[0]
         : selectedHairdresser.services
     };
-  
 
     const saved = JSON.parse(localStorage.getItem('appointments')) || [];
     saved.push(appointment);
     localStorage.setItem('appointments', JSON.stringify(saved));
-  
 
     const options = document.querySelector('.booking-options');
     options.innerHTML = '';
-  
+
     const successMsg = document.createElement('div');
     successMsg.className = 'success-message';
     successMsg.textContent = '✅ Sikeres foglalás!';
-  
+
     const backBtn = document.createElement('button');
     backBtn.textContent = 'Vissza a főoldalra';
     backBtn.className = 'back-button';
@@ -210,13 +208,13 @@ function openBookingPopup(person) {
       const modal = document.getElementById('booking-modal');
       if (modal) modal.remove();
     });
-  
+
     options.appendChild(successMsg);
     options.appendChild(backBtn);
   });
-  
 }
 
+// ✅ Week View With Formatted Hungarian Weekday + Month
 function updateWeekView() {
   const label = document.getElementById('week-label');
   const dateBoxes = document.getElementById('date-boxes');
@@ -224,7 +222,9 @@ function updateWeekView() {
   const start = new Date();
   start.setDate(today.getDate() + weekOffset * 7);
 
-  label.textContent = `${start.toLocaleDateString('hu-HU', { month: 'long', day: 'numeric' })} hét`;
+  // ✅ Initial label with formatted weekday, month, and day
+  label.textContent = formatHungarianDateLabel(start);
+
   dateBoxes.innerHTML = '';
 
   for (let i = 0; i < 7; i++) {
@@ -235,8 +235,8 @@ function updateWeekView() {
     const box = document.createElement('div');
     box.className = 'date-box';
     const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    box.textContent = `${month}.${day}`;
+    const dayStr = String(d.getDate()).padStart(2, '0');
+    box.textContent = `${month}.${dayStr}`;
     box.dataset.date = iso;
 
     box.addEventListener('click', () => {
@@ -244,12 +244,25 @@ function updateWeekView() {
       document.querySelectorAll('.date-box').forEach(b => b.classList.remove('selected'));
       box.classList.add('selected');
       loadTimeSlots();
+
+      const selected = new Date(iso);
+      label.textContent = formatHungarianDateLabel(selected);
     });
 
     dateBoxes.appendChild(box);
   }
 
   document.getElementById('prev-week').disabled = weekOffset === 0;
+}
+
+// ✅ Format: "Hétfő, Március 18"
+function formatHungarianDateLabel(date) {
+  const weekday = date.toLocaleDateString('hu-HU', { weekday: 'long' });
+  const capitalizedWeekday = weekday.charAt(0).toUpperCase() + weekday.slice(1);
+  const month = date.toLocaleDateString('hu-HU', { month: 'long' });
+  const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
+  const day = date.getDate();
+  return `${capitalizedWeekday}, ${capitalizedMonth} ${day}`;
 }
 
 function loadTimeSlots() {
@@ -259,7 +272,7 @@ function loadTimeSlots() {
   const existingAppointments = JSON.parse(localStorage.getItem('appointments')) || [];
   const takenTimes = existingAppointments
     .filter(app => app.appointment_date.startsWith(selectedDate))
-    .map(app => app.appointment_date.split(' ')[1]); // pl. "13:30:00"
+    .map(app => app.appointment_date.split(' ')[1]);
 
   const addGroup = (label, startHour, endHour) => {
     const wrapper = document.createElement('div');

@@ -148,38 +148,24 @@ h1, #ff {
 .hairdresser-info {
   flex: 1;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center; 
+  gap: 10px;
   padding-right: 0;
 }
 
 .hairdresser-info img {
-  width: 100px;
-  height: 100px;
-  border-radius: 12px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #1abc9c;
-  margin: 0;
-}
-
-.hairdresser-info h2,
-.hairdresser-info p {
-  margin: 4px 0;
-  text-align: left;
-}
-
-.hairdresser-info > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 6px;
+  border: 3px solid #1abc9c;
+  margin-bottom: 12px;
 }
 
 
 
 .booking-options {
-  flex: 2;
   display: flex;
   flex-direction: column;
   gap: 15px;

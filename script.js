@@ -57,15 +57,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const adminContainer = document.getElementById('admin-container');
       adminContainer.innerHTML = '<h2>Foglalások</h2>';
       const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+      const added = new Set();
       appointments.forEach(app => {
-        const entry = document.createElement('div');
-        entry.className = 'appointment';
-        entry.textContent = `${app.customer_name} - ${app.appointment_date} - ${app.service} (${app.hairdresser_name})`;
-        adminContainer.appendChild(entry);
+        const key = `${app.customer_name}-${app.appointment_date}-${app.service}-${app.hairdresser_name}`;
+        if (!added.has(key)) {
+          const entry = document.createElement('div');
+          entry.className = 'appointment';
+          entry.textContent = `${app.customer_name} - ${app.appointment_date} - ${app.service} (${app.hairdresser_name})`;
+          adminContainer.appendChild(entry);
+          added.add(key);
+        }
       });
     });
   }
 });
+
 
 function openBookingPopup(person) {
   selectedHairdresser = person;
@@ -178,7 +184,7 @@ function openBookingPopup(person) {
       alert('Válassz dátumot és időpontot!');
       return;
     }
-
+  
     const appointment = {
       hairdresser_id: selectedHairdresser.id,
       hairdresser_name: selectedHairdresser.name,
@@ -189,18 +195,28 @@ function openBookingPopup(person) {
         ? selectedHairdresser.services[0]
         : selectedHairdresser.services
     };
+  
 
     const saved = JSON.parse(localStorage.getItem('appointments')) || [];
     saved.push(appointment);
     localStorage.setItem('appointments', JSON.stringify(saved));
+  
 
-    const options = document.querySelector('.booking-options');
+    fetch('http://salonsapi.prooktatas.hu/api/appointments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...appointment, api_key: '1234567890abcdefghij' })
+    }).catch(err => {
+      console.warn('⚠️ Az API-hívás nem sikerült, de a foglalás elmentve helyben.', err);
+    });
+  
+
     options.innerHTML = '';
-
+  
     const successMsg = document.createElement('div');
     successMsg.className = 'success-message';
     successMsg.textContent = '✅ Sikeres foglalás!';
-
+  
     const backBtn = document.createElement('button');
     backBtn.textContent = 'Vissza a főoldalra';
     backBtn.className = 'back-button';
@@ -208,12 +224,12 @@ function openBookingPopup(person) {
       const modal = document.getElementById('booking-modal');
       if (modal) modal.remove();
     });
-
+  
     options.appendChild(successMsg);
     options.appendChild(backBtn);
   });
+  
 }
-
 
 function updateWeekView() {
   const label = document.getElementById('week-label');
@@ -221,7 +237,6 @@ function updateWeekView() {
   const today = new Date();
   const start = new Date();
   start.setDate(today.getDate() + weekOffset * 7);
-
 
   label.textContent = formatHungarianDateLabel(start);
 
@@ -255,7 +270,6 @@ function updateWeekView() {
   document.getElementById('prev-week').disabled = weekOffset === 0;
 }
 
-
 function formatHungarianDateLabel(date) {
   const weekday = date.toLocaleDateString('hu-HU', { weekday: 'long' });
   const capitalizedWeekday = weekday.charAt(0).toUpperCase() + weekday.slice(1);
@@ -269,7 +283,7 @@ function loadTimeSlots() {
   const container = document.getElementById('time-selector');
   container.innerHTML = '';
 
-  const existingAppointments = JSON.parse(localStorage.getItem('appointments')) || [];
+  const existingAppointments = [];
   const takenTimes = existingAppointments
     .filter(app => app.appointment_date.startsWith(selectedDate))
     .map(app => app.appointment_date.split(' ')[1]);

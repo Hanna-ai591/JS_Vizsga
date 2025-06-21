@@ -313,18 +313,15 @@ h1, h2 {
 
   .card {
     width: 90%;
-    max-width: 360px;
+    max-width: 350px;
   }
 
   .modal-content {
-    flex-direction: column;
     padding: 20px;
-    width: 95%;
   }
 
   .booking-layout {
     flex-direction: column;
-    gap: 20px;
   }
 
 
@@ -333,11 +330,11 @@ h1, h2 {
     padding: 0;
     border: none;
     width: 100%;
-    align-items: flex-start;
+
   }
 
   .time-slot-group {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .close-button {
@@ -349,8 +346,7 @@ h1, h2 {
   .book-button,
   .back-button {
     align-self: center;
-    width: 100%;
-    max-width: 250px;
+
   }
 
   .date-boxes {
@@ -364,5 +360,6 @@ h1, h2 {
 
   .time-wrapper {
     width: 100%;
+    align-items: center;
   }
 }

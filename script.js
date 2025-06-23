@@ -55,21 +55,30 @@ document.addEventListener('DOMContentLoaded', () => {
   if (adminButton) {
     adminButton.addEventListener('click', () => {
       const adminContainer = document.getElementById('admin-container');
-      adminContainer.innerHTML = '<h2>Foglalások</h2>';
-      const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-      const added = new Set();
-      appointments.forEach(app => {
-        const key = `${app.customer_name}-${app.appointment_date}-${app.service}-${app.hairdresser_name}`;
-        if (!added.has(key)) {
-          const entry = document.createElement('div');
-          entry.className = 'appointment';
-          entry.textContent = `${app.customer_name} - ${app.appointment_date} - ${app.service} (${app.hairdresser_name})`;
-          adminContainer.appendChild(entry);
-          added.add(key);
-        }
-      });
+  
+     
+      if (adminContainer.style.display === 'block') {
+        adminContainer.style.display = 'none';
+        adminContainer.innerHTML = ''; 
+      } else {
+        adminContainer.style.display = 'block';
+        adminContainer.innerHTML = '<h2>Foglalások</h2>';
+        const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+        const added = new Set();
+        appointments.forEach(app => {
+          const key = `${app.customer_name}-${app.appointment_date}-${app.service}-${app.hairdresser_name}`;
+          if (!added.has(key)) {
+            const entry = document.createElement('div');
+            entry.className = 'appointment';
+            entry.textContent = `${app.customer_name} - ${app.appointment_date} - ${app.service} (${app.hairdresser_name})`;
+            adminContainer.appendChild(entry);
+            added.add(key);
+          }
+        });
+      }
     });
   }
+  
 });
 
 
@@ -328,4 +337,5 @@ function loadTimeSlots() {
 
   addGroup('Délelőtt', 9, 12);
   addGroup('Délután', 13, 16);
+  
 }
